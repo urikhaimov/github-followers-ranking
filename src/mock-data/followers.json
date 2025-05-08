@@ -1,8 +1,85 @@
+
 {
-    "A": ["B", "C", "D"],
-    "B": ["D", "E", "K"],
-    "C": ["K", "L"],
-    "D": ["F"],
-    "K": ["M", "N"]
-  }
-  
+    "users": [
+        {
+            "id": 1,
+            "name": "Alice",
+            "avatar": "https://avatars.githubusercontent.com/u/1",
+            "profileUrl": "https://github.com/alice",
+            "createdAt": "2018-05-10",
+            "followers": ["Bob","Cat","Dude"]
+        },
+        {
+            "id": 2,
+            "name": "Bob",
+            "avatar": "https://avatars.githubusercontent.com/u/2",
+            "profileUrl": "https://github.com/bob",
+            "createdAt": "2019-02-15",
+            "followers": ["Dude","Eduard", "Kolya" ]
+        },
+        {
+            "id": 3,
+            "name": "Cat",
+            "avatar": "https://avatars.githubusercontent.com/u/3",
+            "profileUrl": "https://github.com/cat",
+            "createdAt": "2019-02-15",
+            "followers": ["Kolya", "Lada"]
+        },
+        {
+            "id": 4,
+            "name": "Dude",
+            "avatar": "https://avatars.githubusercontent.com/u/4",
+            "profileUrl": "https://github.com/dude",
+            "createdAt": "2019-02-15",
+            "followers": ["Flora"]
+        },
+        {
+            "id": 5,
+            "name": "Eduard",
+            "avatar": "https://avatars.githubusercontent.com/u/5",
+            "profileUrl": "https://github.com/eduard",
+            "createdAt": "2019-02-15",
+            "followers": []
+        },
+        {
+            "id": 6,
+            "name": "Kolya",
+            "avatar": "https://avatars.githubusercontent.com/u/6",
+            "profileUrl": "https://github.com/kolya",
+            "createdAt": "2019-02-15",
+            "followers": ["Manya","Nicolay"]
+        },
+        {
+            "id": 7,
+            "name": "Lada",
+            "avatar": "https://avatars.githubusercontent.com/u/7",
+            "profileUrl": "https://github.com/lada",
+            "createdAt": "2019-02-15",
+            "followers": []
+        },
+        {
+            "id": 8,
+            "name": "Flora",
+            "avatar": "https://avatars.githubusercontent.com/u/8",
+            "profileUrl": "https://github.com/flora",
+            "createdAt": "2019-02-15",
+            "followers": []
+        },
+        {
+            "id": 9,
+            "name": "Manya",
+            "avatar": "https://avatars.githubusercontent.com/u/9",
+            "profileUrl": "https://github.com/manya",
+            "createdAt": "2019-02-15",
+            "followers": []
+        },
+        {
+            "id": 10,
+            "name": "Nicolay",
+            "avatar": "https://avatars.githubusercontent.com/u/10",
+            "profileUrl": "https://github.com/manya",
+            "createdAt": "2019-02-15",
+            "followers": []
+        }
+    ]
+}
