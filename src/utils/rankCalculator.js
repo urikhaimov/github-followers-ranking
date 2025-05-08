@@ -25,7 +25,6 @@ export async function resolveFollowers(username, depth, getFollowers) {
       const visited = new Set();
       
       function depthSearchFollowers(u) {
-        console.log('visited calculateRanks', visited)
         if (visited.has(u)) return;
         visited.add(u);
         const followers = usersMap[u] || [];
