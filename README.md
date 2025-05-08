@@ -1,71 +1,92 @@
-# Getting Started with Create React App
+# GitHub Followers Ranking Report
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This web application generates a ranking report of GitHub users based on their follower graph (direct and indirect), up to a specified depth.
 
-## Available Scripts
+## 📌 Features
 
-In the project directory, you can run:
+* Fetches mock follower data (simulating GitHub API)
+* Recursive graph traversal up to user-defined depth
+* Displays user profiles with:
 
-### `npm start`
+  * Avatar
+  * Username
+  * Profile creation date
+  * Link to GitHub profile
+  * Followers-rank (direct + indirect)
+* Sortable columns: username, creation date, followers-rank
+* Pagination-ready structure
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## 🚀 How to Run
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Prerequisites
 
-### `npm test`
+* Node.js (v16+ recommended)
+* npm or yarn
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Setup Instructions
 
-### `npm run build`
+```bash
+# Clone the repository
+$ git clone <your-repo-url>
+$ cd github-followers-ranking
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+# Install dependencies
+$ npm install
+# or
+yarn
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+# Run the development server
+$ npm start
+# or
+yarn start
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The app will open in your default browser at `http://localhost:3000`.
 
-### `npm run eject`
+## 📁 Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
+├── src
+│   ├── components
+│   │   ├── Dashboard.jsx
+│   │   └── UserCard.jsx
+│   ├── mock-data
+│   │   └── mockApi.js
+│   ├── utils
+│   │   ├── helpers.js
+│   └── App.jsx
+├── public
+├── package.json
+└── README.md
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## 🧪 Mock API
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+To avoid GitHub API rate limits, this app uses a local mock data file in `src/mock-data/mockApi.js` that simulates GitHub follower responses.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📌 Technologies Used
 
-## Learn More
+* React.js
+* JavaScript (ES6+)
+* CSS Modules / Plain CSS
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## 🧠 Design Considerations
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* Modular component-based architecture for easy extension
+* Clear separation between logic, presentation, and API handling
+* Descriptive function names and professional comments for readability
 
-### Code Splitting
+## ✅ Quality Principles Demonstrated
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+* Clean, readable, and documented code
+* Clear naming conventions
+* Stateless, reusable components
+* Simple and extendable logic for ranking and traversal
 
-### Analyzing the Bundle Size
+## 👤 Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Uri Khaimov
 
-### Making a Progressive Web App
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# github-followers-ranking
+For any questions, please contact the author or submit issues via the repository page.
