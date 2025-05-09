@@ -1,12 +1,11 @@
 import React, { useContext } from 'react';
 
-import UserCard from '../userCard/UserCard';
-import  Sorting  from '../../components/Sorting/Sorting';
-import Pagination from '../../components/Pagination/Pagination';
+import UserCard from '../UserCard';
+import  Sorting  from '../Sorting';
+import Pagination from '../Pagination';
 import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
 
-
-export const UserList = () => {
+const UserList = () => {
     const { users, isSubmitting, sortBy, handleSortChange, currentPage, itemsPerPage, handlePageChange } = useContext(DashboardContext)
     return (
         <div>
@@ -18,3 +17,5 @@ export const UserList = () => {
         </div>
     )
 }
+
+export default UserList

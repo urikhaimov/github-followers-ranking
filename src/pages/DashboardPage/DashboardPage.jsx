@@ -4,10 +4,10 @@ import { getFollowers } from '../../api/mockGithubApi';
 import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
 import { enrichUsers } from '../../utils/enrichUsers';
 
-import { UserList } from '../../components/UserList/UserList';
+import  UserList from '../../components/UserList';
 
 import './style.css';
-import FetchForm from '../../components/FetchForm/FetchForm';
+import FetchForm from '../../components/FetchForm';
 import { DashboardContext } from './DashboardContext';
 
 
