@@ -1,11 +1,11 @@
 import React from 'react';
-import Dashboard from './components/Dashboard';
+import DashboardPage from './pages/DashboardPage/DashboardPage';
 
 export default function App() {
   return (
     <div className="app">
       <h1>GitHub Followers Ranking Report</h1>
-      <Dashboard />
+      <DashboardPage />
     </div>
   );
 }
