@@ -20,7 +20,7 @@ export default function DashboardPage() {
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    formState: { errors, isSubmitting },
   } = useForm();
 
 
@@ -83,6 +83,7 @@ export default function DashboardPage() {
     onSubmit,
     register,
     users: sortedUsers,
+    errors,
     isSubmitting,
     sortBy,
     handleSortChange,

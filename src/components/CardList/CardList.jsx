@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Grid, Box } from '@mui/material';
-import UserCard from '../UserCard';
+import UserCard from '../userCard';
 import Sorting from '../Sorting';
 import FollowersPagination from '../FollowersPagination';
 import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
