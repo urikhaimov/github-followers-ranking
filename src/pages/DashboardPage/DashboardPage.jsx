@@ -9,6 +9,7 @@ import { DashboardContext } from './DashboardContext';
 import { reducer } from './store/Reducer';
 import { initialState } from './store/initialState';
 import Box from '@mui/material/Box';
+import { sortFollowers } from '../../utils/sortFollowers';
 
 export default function DashboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -69,16 +70,7 @@ export default function DashboardPage() {
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentUsers = followers.slice(indexOfFirst, indexOfLast);
 
-  const sortedUsers = [...currentUsers].sort((a, b) => {
-    if (sortBy === 'followerName') {
-      return a.name.localeCompare(b.name);
-    } else if (sortBy === 'created_at') {
-      return new Date(a.createdAt) - new Date(b.createdAt);
-    } else if (sortBy === 'followersRank') {
-      return b.followersRank - a.followersRank;
-    }
-    return 0;
-  });
+  const sortedUsers = [...currentUsers].sort((a, b) => sortFollowers(a, b, sortBy));
 
 
 
