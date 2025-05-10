@@ -2,7 +2,7 @@ import React, { useReducer, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { getUsers, getFollowers } from './api/mockGithubApi';
 import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
-import { enrichUsers } from '../../utils/enrichUsers';
+import { enrichFollowers } from '../../utils/enrichFollowers';
 import CardList from '../../components/CardList';
 import FetchForm from '../../components/FetchForm';
 import { DashboardContext } from './DashboardContext';
@@ -13,14 +13,7 @@ import Box from '@mui/material/Box';
 export default function DashboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const {users, followers, sortBy, currentPage} =state;   
- 
-  
-
-
   const itemsPerPage = 3;
-  
-
-
   const {
     register,
     handleSubmit,
@@ -41,7 +34,7 @@ export default function DashboardPage() {
     
     // Step 1: Recursively collect followers up to the specified depth
     const followers = await resolveFollowers(followerName, depth, getFollowers);
-    console.log('follwers', followers)
+    
     // Step 2: Construct a full map of each user to their direct followers
     const fullMap = { [followerName]: await getFollowers(followerName) };
     for (const user of followers) {
@@ -53,7 +46,7 @@ export default function DashboardPage() {
 
     // Step 4: Enrich user data with profile details (simulated for mock API)
     const allFollowers = [followerName, ...followers];
-    const enriched = enrichUsers(allFollowers, users);
+    const enriched = enrichFollowers(allFollowers, users);
 
     // Step 5: Merge enriched data with calculated ranks and update state
     const ranked = enriched.map((u) => ({ ...u, followersRank: ranks[u.name] || 0 }));
