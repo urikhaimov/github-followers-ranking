@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useMemo, useCallback } from 'react';
+import React, { useReducer, useEffect, useMemo, useCallback,useContext  } from 'react';
 import { useForm } from 'react-hook-form';
 import { getUsers, getFollowers } from './api/mockGithubApi';
 import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
@@ -11,16 +11,15 @@ import { initialState } from './store/initialState';
 import Box from '@mui/material/Box';
 import { sortFollowers } from '../../utils/sortFollowers';
 import MemoizedContainer from '../../ui/MemorizedContainer';
-
-export default function DashboardPage() {
+import FormProvider from './context/FormProvider';
+import { FormContext } from './context/FormContext';
+function DashboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { users, followers, sortBy, currentPage } = state;
   const itemsPerPage = 3;
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm();
+  const form = useContext(FormContext);
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = form;
+  
 
   useEffect(() => {
     async function fetchData() {
@@ -120,5 +119,12 @@ export default function DashboardPage() {
       </MemoizedContainer>
     </DashboardContext.Provider>
 
+  );
+}
+export default function DashboardPageWithProvider() {
+  return (
+    <FormProvider>
+      <DashboardPage />
+    </FormProvider>
   );
 }

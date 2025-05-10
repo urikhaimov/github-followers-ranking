@@ -1,6 +1,6 @@
 import React from 'react';
-import DashboardPage from './pages/DashboardPage';
 import { Typography, Box } from '@mui/material';
+import DashboardPageWithProvider from './pages/DashboardPage/DashboardPage';
 export default function App() {
   return (
     <Box
@@ -10,7 +10,7 @@ export default function App() {
         alignItems: 'center'
       }}>
       <Typography variant="h6" component="div" >GitHub Followers Ranking Report</Typography>
-      <DashboardPage />
+      <DashboardPageWithProvider />
     </Box >
   );
 }
