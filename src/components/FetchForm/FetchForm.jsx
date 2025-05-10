@@ -7,7 +7,7 @@ import MuiResponsiveness from '../MuiResponsiveness/MuiResponsiveness';
 import { FormContext } from '../../context/FormContext';
 
 const FetchForm = memo(() => {
-    const { handleSubmit } = useContext(FormContext);
+    const { handleSubmit} = useContext(FormContext);
     const { onSubmit } = useContext(DashboardContext);
     console.log('form')
 
@@ -32,12 +32,16 @@ const FetchForm = memo(() => {
                     label="GitHub User Name"
                     name="followerName"
                     placeholder="Enter GitHub User Name"
+                 
+                   
                 />
                 <LabeledInput
                     label="Traversal Depth (e.g. 1 or 2)"
                     name="depth"
                     placeholder="Enter Depth"
                     type="number"
+                    
+                   
                 />
                 <Button type="submit" variant="contained">Fetch</Button>
             </MuiResponsiveness>
