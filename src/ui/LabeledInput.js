@@ -13,7 +13,7 @@ export const LabeledInput = ({ label, name, placeholder, type = 'text' }) => {
                 {...register(name, { required: `${label} is required` })} // Adding required validation
                 placeholder={placeholder}
                 type={type}
-                helperText={errors[name] ? errors[name].message : ''} // Display error message
+              
             />
             {errors[name] && (
                 <>
