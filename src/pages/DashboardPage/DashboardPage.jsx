@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { getUsers, getFollowers } from './api/mockGithubApi';
 import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
@@ -6,13 +6,17 @@ import { enrichUsers } from '../../utils/enrichUsers';
 import CardList from '../../components/CardList';
 import FetchForm from '../../components/FetchForm';
 import { DashboardContext } from './DashboardContext';
+import { reducer } from './store/Reducer';
+import { initialState } from './store/initialState';
 import Box from '@mui/material/Box';
 
 export default function DashboardPage() {
-  const [users, setUsers] = useState([]);
-  const [followers, setFollowers] = useState([]);
-  const [sortBy, setSortBy] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const {users, followers, sortBy, currentPage} =state;   
+ 
+  
+
+
   const itemsPerPage = 3;
   
 
@@ -25,17 +29,15 @@ export default function DashboardPage() {
 
   useEffect(async () => {
     const gitHubUsers = await getUsers();
-    setUsers(gitHubUsers)
+    dispatch({ type: 'SET_USERS', payload: gitHubUsers });
   }, [])
 
 
   // Handles the main logic: fetches all followers up to given depth, computes ranking, and updates UI
   const onSubmit = async (data) => {
-    setFollowers([]);
+    dispatch({ type: 'SET_FOLLOWERS', payload: [] });
+    
     const { followerName, depth } = data;
-
-   
-
     
     // Step 1: Recursively collect followers up to the specified depth
     const followers = await resolveFollowers(followerName, depth, getFollowers);
@@ -56,17 +58,19 @@ export default function DashboardPage() {
     // Step 5: Merge enriched data with calculated ranks and update state
     const ranked = enriched.map((u) => ({ ...u, followersRank: ranks[u.name] || 0 }));
 
-    setFollowers(ranked);
+  
+    dispatch({ type: 'SET_FOLLOWERS', payload: ranked });
 
   };
   const handleSortChange = (e) => {
-    setSortBy(e.target.value);
+    dispatch({ type: 'SET_SORT_BY', payload: e.target.value });
   };
 
 
   const handlePageChange = (event, value) => {
-    setCurrentPage(value);
+    dispatch({ type: 'SET_CURRENT_PAGE', payload: value });
   };
+
   // Calculate visible followers for current page
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
