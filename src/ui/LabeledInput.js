@@ -5,6 +5,7 @@ import { DashboardContext } from '../pages/DashboardPage/DashboardContext';
 
 export const LabeledInput = ({ label, name, placeholder, type = 'text' }) => {
     const { errors, register } = useContext(DashboardContext)
+    console.log('LabeledInput')
     return (
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
             <InputLabel id={name}>{label}:</InputLabel>

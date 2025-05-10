@@ -7,6 +7,7 @@ import MuiResponsiveness from '../MuiResponsiveness/MuiResponsiveness';
 
 
 const FetchForm = () => {
+    console.log('FetchForm')
     const { handleSubmit, onSubmit } = useContext(DashboardContext)
     return (
 

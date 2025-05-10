@@ -6,7 +6,7 @@ import FollowersPagination from '../FollowersPagination';
 import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
 
 const CardList = () => {
-  const { followers } = useContext(DashboardContext)
+  const { sortedUsers: followers } = useContext(DashboardContext)
   return (
     <>
       <Box sx={{ mb: 3 }}>
@@ -14,7 +14,7 @@ const CardList = () => {
       </Box>
       <Grid container spacing={2} justifyContent="center" >
         {followers.map((item, index) => (
-          <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+          <Grid key={index} xs={12} sm={6} md={4} lg={3}>
             <UserCard user={item} />
           </Grid>
         ))}

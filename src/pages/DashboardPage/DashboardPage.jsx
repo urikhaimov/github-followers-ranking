@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useEffect, useMemo, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import { getUsers, getFollowers } from './api/mockGithubApi';
 import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
@@ -10,6 +10,7 @@ import { reducer } from './store/Reducer';
 import { initialState } from './store/initialState';
 import Box from '@mui/material/Box';
 import { sortFollowers } from '../../utils/sortFollowers';
+import MemoizedContainer from '../../ui/MemorizedContainer';
 
 export default function DashboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -21,14 +22,19 @@ export default function DashboardPage() {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  useEffect(async () => {
-    const gitHubUsers = await getUsers();
-    dispatch({ type: 'SET_USERS', payload: gitHubUsers });
+  useEffect(() => {
+    async function fetchData() {
+      const gitHubUsers = await getUsers();
+      dispatch({ type: 'SET_USERS', payload: gitHubUsers });
+
+    }
+    fetchData();
+
   }, [])
 
 
   // Handles the main logic: fetches all followers up to given depth, computes ranking, and updates UI
-  const onSubmit = async (data) => {
+  const onSubmit =useCallback( async (data) => {
     dispatch({ type: 'CLEAR', payload: [] });
 
     const { followerName, depth } = data;
@@ -55,15 +61,15 @@ export default function DashboardPage() {
 
     dispatch({ type: 'SET_FOLLOWERS', payload: ranked });
 
-  };
-  const handleSortChange = (e) => {
+  });
+  const handleSortChange = useCallback((e) => {
     dispatch({ type: 'SET_SORT_BY', payload: e.target.value });
-  };
+  });
 
 
-  const handlePageChange = (event, value) => {
+  const handlePageChange = useCallback((event, value) => {
     dispatch({ type: 'SET_CURRENT_PAGE', payload: value });
-  };
+  });
 
   // Calculate visible followers for current page
   const indexOfLast = currentPage * itemsPerPage;
@@ -72,29 +78,47 @@ export default function DashboardPage() {
 
   const sortedUsers = [...currentUsers].sort((a, b) => sortFollowers(a, b, sortBy));
 
-
-
-  const value = {
-    handleSubmit,
-    onSubmit,
+  // const value = {
+  //   handleSubmit,
+  //   onSubmit,
+  //   register,
+  //   followers: sortedUsers,
+  //   errors,
+  //   isSubmitting,
+  //   sortBy,
+  //   handleSortChange,
+  //   currentPage,
+  //   totalItems: followers.length,
+  //   itemsPerPage,
+  //   handlePageChange
+  // }
+  const totalItems = followers.length;
+  const contextValue = useMemo(() => ({
     register,
-    followers: sortedUsers,
+    handleSubmit,
     errors,
     isSubmitting,
+    onSubmit,
+    sortedUsers,
     sortBy,
     handleSortChange,
     currentPage,
-    totalItems: followers.length,
+    totalItems,
     itemsPerPage,
     handlePageChange
-  }
+  }), [onSubmit, sortedUsers, sortBy, handleSortChange, currentPage, totalItems, itemsPerPage, handlePageChange]);
+  
+
   return (
-    <DashboardContext.Provider value={value} >
-      <Box sx={{ mb: 5 }}>
-        <FetchForm />
-      </Box>
-      {isSubmitting && <p>Loading..</p>}
-      {sortedUsers.length > 0 && <CardList />}
+    <DashboardContext.Provider value={contextValue} >
+      <MemoizedContainer >
+        <Box sx={{ mb: 5 }}>
+          <FetchForm />
+        </Box>
+        {isSubmitting && <p>Loading..</p>}
+        {sortedUsers.length > 0 && <CardList />}
+      </MemoizedContainer>
     </DashboardContext.Provider>
+
   );
 }
