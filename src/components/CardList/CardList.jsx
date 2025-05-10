@@ -1,12 +1,16 @@
 import React, { useContext } from 'react';
-import { Grid, Box } from '@mui/material';
+import { Grid, Box, CircularProgress } from '@mui/material';
 import UserCard from '../UserCard';
 import Sorting from '../Sorting';
 import FollowersPagination from '../FollowersPagination';
 import { DashboardContext } from '../../context/DashboardContext';
+import { FormContext } from '../../context/FormContext';
 
 const CardList = () => {
-  const { sortedUsers: followers } = useContext(DashboardContext)
+const { formState: { isSubmitting } } = useContext(FormContext);
+  const { sortedUsers: followers } = useContext(DashboardContext);
+  if (isSubmitting ) return <CircularProgress color="inherit" />
+  if (followers.length===0) return null; 
   return (
     <>
       <Box sx={{ mb: 3 }}>

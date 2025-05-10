@@ -1,5 +1,4 @@
 import React, { useReducer, useEffect, useMemo, useCallback, useContext } from 'react';
-import { useForm } from 'react-hook-form';
 import { getUsers, getFollowers } from './api/mockGithubApi';
 import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
 import { enrichFollowers } from '../../utils/enrichFollowers';
@@ -8,10 +7,10 @@ import FetchForm from '../../components/FetchForm';
 import { DashboardContext } from '../../context/DashboardContext';
 import { reducer } from './store/Reducer';
 import { initialState } from './store/initialState';
-import Box from '@mui/material/Box';
+import {Box} from '@mui/material';
 import { sortFollowers } from '../../utils/sortFollowers';
 import FormProvider from '../../context/FormProvider';
-import { FormContext } from '../../context/FormContext';
+
 
 
 
@@ -19,10 +18,8 @@ function DashboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { users, followers, sortBy, currentPage } = state;
   const itemsPerPage = 3;
-  const form = useContext(FormContext);
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = form;
-
-
+  
+  
   useEffect(() => {
     async function fetchData() {
       const gitHubUsers = await getUsers();
@@ -80,10 +77,7 @@ function DashboardPage() {
   const sortedUsers = [...currentUsers].sort((a, b) => sortFollowers(a, b, sortBy));
   const totalItems = followers.length;
   const contextValue = useMemo(() => ({
-    register,
-    handleSubmit,
-    errors,
-    isSubmitting,
+  
     onSubmit,
     sortedUsers,
     sortBy,
@@ -92,24 +86,29 @@ function DashboardPage() {
     totalItems,
     itemsPerPage,
     handlePageChange
-  }), [onSubmit, sortedUsers, sortBy, handleSortChange, currentPage, totalItems, itemsPerPage, handlePageChange]);
+  }), [ 
+    onSubmit,
+    sortedUsers,
+    sortBy,
+    handleSortChange,
+    currentPage,
+    totalItems,
+    itemsPerPage,
+    handlePageChange]);
 
 
   return (
-   
       <DashboardContext.Provider value={contextValue} >
-
         <Box sx={{ mb: 5 }}>
           <FetchForm />
         </Box>
-        {isSubmitting && <p>Loading..</p>}
-        {sortedUsers.length > 0 && <CardList />}
-
+        <CardList />
       </DashboardContext.Provider>
-   
-
   );
 }
+
+
+
 export default function DashboardPageWithProvider() {
   return (
     <FormProvider>
