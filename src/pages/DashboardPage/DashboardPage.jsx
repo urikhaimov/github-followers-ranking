@@ -28,10 +28,10 @@ export default function DashboardPage() {
   const onSubmit = async (data) => {
     setUsers([]);
     const { username, depth } = data;
-   
+
     // Step 1: Recursively collect followers up to the specified depth
     const followers = await resolveFollowers(username, depth, getFollowers);
-    
+
     // Step 2: Construct a full map of each user to their direct followers
     const fullMap = { [username]: await getFollowers(username) };
     for (const user of followers) {

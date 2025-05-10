@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
-import {Select, FormControl, InputLabel, MenuItem} from '@mui/material';
+import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 
 
 const Sorting = () => {

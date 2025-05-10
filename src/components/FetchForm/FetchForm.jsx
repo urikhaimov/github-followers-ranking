@@ -18,7 +18,7 @@ const FetchForm = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
-              
+
                 margin: 'auto',
                 padding: 3,
                 borderRadius: 1,
