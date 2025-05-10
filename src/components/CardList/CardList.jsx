@@ -3,7 +3,7 @@ import { Grid, Box } from '@mui/material';
 import UserCard from '../UserCard';
 import Sorting from '../Sorting';
 import FollowersPagination from '../FollowersPagination';
-import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
+import { DashboardContext } from '../../context/DashboardContext';
 
 const CardList = () => {
   const { sortedUsers: followers } = useContext(DashboardContext)

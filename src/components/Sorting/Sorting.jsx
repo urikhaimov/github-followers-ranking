@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
+import { DashboardContext } from '../../context/DashboardContext';
 import { Select, FormControl, InputLabel, MenuItem } from '@mui/material';
 
 

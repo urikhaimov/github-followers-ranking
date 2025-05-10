@@ -5,14 +5,14 @@ import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
 import { enrichFollowers } from '../../utils/enrichFollowers';
 import CardList from '../../components/CardList';
 import FetchForm from '../../components/FetchForm';
-import { DashboardContext } from './DashboardContext';
+import { DashboardContext } from '../../context/DashboardContext';
 import { reducer } from './store/Reducer';
 import { initialState } from './store/initialState';
 import Box from '@mui/material/Box';
 import { sortFollowers } from '../../utils/sortFollowers';
 import MemoizedContainer from '../../ui/MemorizedContainer';
-import FormProvider from './context/FormProvider';
-import { FormContext } from './context/FormContext';
+import FormProvider from '../../context/FormProvider';
+import { FormContext } from '../../context/FormContext';
 function DashboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { users, followers, sortBy, currentPage } = state;
@@ -77,20 +77,6 @@ function DashboardPage() {
 
   const sortedUsers = [...currentUsers].sort((a, b) => sortFollowers(a, b, sortBy));
 
-  // const value = {
-  //   handleSubmit,
-  //   onSubmit,
-  //   register,
-  //   followers: sortedUsers,
-  //   errors,
-  //   isSubmitting,
-  //   sortBy,
-  //   handleSortChange,
-  //   currentPage,
-  //   totalItems: followers.length,
-  //   itemsPerPage,
-  //   handlePageChange
-  // }
   const totalItems = followers.length;
   const contextValue = useMemo(() => ({
     register,

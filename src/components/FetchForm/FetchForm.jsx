@@ -1,17 +1,14 @@
-import React, { useContext } from 'react';
+import React, { memo, useContext } from 'react';
 import { LabeledInput } from '../../ui/LabeledInput';
-import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
-import { FormContext } from '../../pages/DashboardPage/context/FormContext';
+import { DashboardContext } from '../../context/DashboardContext';
+import { FormContext } from '../../context/FormContext';
 import { Box, Button } from '@mui/material';
 import MuiResponsiveness from '../MuiResponsiveness/MuiResponsiveness';
 
-const FetchForm = () => {
-  console.log('FetchForm');
+const FetchForm = memo(() => {
   const { handleSubmit } = useContext(FormContext);
   const { onSubmit } = useContext(DashboardContext);
-  
-  const { formState: { errors } } = useContext(FormContext); // ✅ get errors here
-
+  console.log('feorm')
   return (
     <Box
       component="form"
@@ -33,21 +30,17 @@ const FetchForm = () => {
           label="GitHub User Name"
           name="followerName"
           placeholder="Enter GitHub User Name"
-          required
-          error={errors.followerName}
         />
         <LabeledInput
           label="Traversal Depth (e.g. 1 or 2)"
           name="depth"
           placeholder="Enter Depth"
           type="number"
-          required
-          error={errors.depth}
         />
         <Button type="submit" variant="contained">Fetch</Button>
       </MuiResponsiveness>
     </Box>
   );
-};
+});
 
 export default FetchForm;

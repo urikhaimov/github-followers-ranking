@@ -1,13 +1,14 @@
-// FormProvider.jsx
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FormContext } from './FormContext';
 
 const FormProvider = ({ children }) => {
-  const form = useForm();
+  const formMethods = useForm();
+  
+  const value = useMemo(() => formMethods, [formMethods]);
 
   return (
-    <FormContext.Provider value={form}>
+    <FormContext.Provider value={value}>
       {children}
     </FormContext.Provider>
   );

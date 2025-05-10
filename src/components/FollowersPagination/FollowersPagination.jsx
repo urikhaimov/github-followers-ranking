@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
+import { DashboardContext } from '../../context/DashboardContext';
 import { Box, Pagination } from '@mui/material';
 
 const FollowersPagination = () => {

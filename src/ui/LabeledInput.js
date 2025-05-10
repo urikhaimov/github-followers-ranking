@@ -1,17 +1,10 @@
 import React, { useContext } from 'react';
-import {
-  Input,
-  InputLabel,
-  FormHelperText,
-  Box,
-  FormControl
-} from '@mui/material';
-import { DashboardContext } from '../pages/DashboardPage/DashboardContext';
+import { Input, InputLabel, FormHelperText, Box, FormControl } from '@mui/material';
+import { FormContext } from '../context/FormContext';
 
-export const LabeledInput = ({ label, name, placeholder, type = 'text' }) => {
-    console.log('LabeledInput')
-  const { errors, register } = useContext(DashboardContext);
-
+export const LabeledInput = React.memo( ({ label, name, placeholder, type = 'text' }) => {
+  const { register, formState: { errors } } = useContext(FormContext);
+  console.log('labeled')
   return (
     <FormControl error={!!errors[name]} variant="standard">
       <InputLabel htmlFor={name}>{label}</InputLabel>
@@ -26,4 +19,4 @@ export const LabeledInput = ({ label, name, placeholder, type = 'text' }) => {
       )}
     </FormControl>
   );
-};
+});
