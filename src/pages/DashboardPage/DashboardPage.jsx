@@ -10,7 +10,6 @@ import { reducer } from './store/Reducer';
 import { initialState } from './store/initialState';
 import Box from '@mui/material/Box';
 import { sortFollowers } from '../../utils/sortFollowers';
-import MemoizedContainer from '../../ui/MemorizedContainer';
 import FormProvider from '../../context/FormProvider';
 import { FormContext } from '../../context/FormContext';
 
@@ -97,7 +96,7 @@ function DashboardPage() {
 
 
   return (
-    <MemoizedContainer >
+   
       <DashboardContext.Provider value={contextValue} >
 
         <Box sx={{ mb: 5 }}>
@@ -107,7 +106,7 @@ function DashboardPage() {
         {sortedUsers.length > 0 && <CardList />}
 
       </DashboardContext.Provider>
-    </MemoizedContainer>
+   
 
   );
 }
