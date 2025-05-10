@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useMemo, useCallback,useContext  } from 'react';
+import React, { useReducer, useEffect, useMemo, useCallback, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { getUsers, getFollowers } from './api/mockGithubApi';
 import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
@@ -13,13 +13,16 @@ import { sortFollowers } from '../../utils/sortFollowers';
 import MemoizedContainer from '../../ui/MemorizedContainer';
 import FormProvider from '../../context/FormProvider';
 import { FormContext } from '../../context/FormContext';
+
+
+
 function DashboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { users, followers, sortBy, currentPage } = state;
   const itemsPerPage = 3;
   const form = useContext(FormContext);
   const { register, handleSubmit, formState: { errors, isSubmitting } } = form;
-  
+
 
   useEffect(() => {
     async function fetchData() {
@@ -33,7 +36,7 @@ function DashboardPage() {
 
 
   // Handles the main logic: fetches all followers up to given depth, computes ranking, and updates UI
-  const onSubmit =useCallback( async (data) => {
+  const onSubmit = useCallback(async (data) => {
     dispatch({ type: 'CLEAR', payload: [] });
 
     const { followerName, depth } = data;
@@ -76,7 +79,6 @@ function DashboardPage() {
   const currentUsers = followers.slice(indexOfFirst, indexOfLast);
 
   const sortedUsers = [...currentUsers].sort((a, b) => sortFollowers(a, b, sortBy));
-
   const totalItems = followers.length;
   const contextValue = useMemo(() => ({
     register,
@@ -92,18 +94,20 @@ function DashboardPage() {
     itemsPerPage,
     handlePageChange
   }), [onSubmit, sortedUsers, sortBy, handleSortChange, currentPage, totalItems, itemsPerPage, handlePageChange]);
-  
+
 
   return (
-    <DashboardContext.Provider value={contextValue} >
-      <MemoizedContainer >
+    <MemoizedContainer >
+      <DashboardContext.Provider value={contextValue} >
+
         <Box sx={{ mb: 5 }}>
           <FetchForm />
         </Box>
         {isSubmitting && <p>Loading..</p>}
         {sortedUsers.length > 0 && <CardList />}
-      </MemoizedContainer>
-    </DashboardContext.Provider>
+
+      </DashboardContext.Provider>
+    </MemoizedContainer>
 
   );
 }
