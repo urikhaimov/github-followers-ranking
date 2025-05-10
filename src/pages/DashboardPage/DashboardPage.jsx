@@ -3,13 +3,10 @@ import { useForm } from 'react-hook-form';
 import { getFollowers } from '../../api/mockGithubApi';
 import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
 import { enrichUsers } from '../../utils/enrichUsers';
-
-import  UserList from '../../components/UserList';
-
-import './style.css';
+import CardList from '../../components/CardList';
 import FetchForm from '../../components/FetchForm';
 import { DashboardContext } from './DashboardContext';
-
+import Box from '@mui/material/Box';
 
 export default function DashboardPage() {
 
@@ -23,7 +20,7 @@ export default function DashboardPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { isSubmitting },
   } = useForm();
 
 
@@ -58,11 +55,11 @@ export default function DashboardPage() {
   const handleSortChange = (e) => {
     setSortBy(e.target.value);
   };
-  const handlePageChange = (newPage) => {
-    setCurrentPage(newPage);
+
+
+  const handlePageChange = (event, value) => {
+    setCurrentPage(value);
   };
-
-
   // Calculate visible users for current page
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
@@ -81,11 +78,11 @@ export default function DashboardPage() {
 
 
 
-  const value ={
+  const value = {
     handleSubmit,
     onSubmit,
     register,
-    users:sortedUsers,
+    users: sortedUsers,
     isSubmitting,
     sortBy,
     handleSortChange,
@@ -96,12 +93,11 @@ export default function DashboardPage() {
   }
   return (
     <DashboardContext.Provider value={value} >
-      <div className='dashboard'>
-        <FetchForm   />
-        <br/>
-         <UserList />
-
-      </div>
+      <Box sx={{ mb: 5 }}>
+        <FetchForm />
+      </Box>
+      {isSubmitting && <p>Loading..</p>}
+      {sortedUsers.length > 0 && <CardList />}
     </DashboardContext.Provider>
   );
 }

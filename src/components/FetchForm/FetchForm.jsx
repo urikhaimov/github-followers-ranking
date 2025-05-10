@@ -1,21 +1,48 @@
 
 import React, { useContext } from 'react';
-import { Input } from '../../ui/Input';
-import './style.css';
+import { LabeledInput } from '../../ui/LabeledInput';
 import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
+import { Box, Button } from '@mui/material';
+import MuiResponsiveness from '../MuiResponsiveness/MuiResponsiveness';
 
 
 const FetchForm = () => {
-    const {handleSubmit, onSubmit,register} = useContext(DashboardContext)
-    return (<form method='post' onSubmit={handleSubmit((data) => onSubmit(data))}>
-        <div className='controls'>
-            <Input label={'GitHub Username'} register={register} name={'username'} placeholder={'Enter GitHub username'} />
-            <Input label={'Traversal Depth (e.g. 1 or 2)'} register={register} name={'depth'} placeholder={'Enter Depth'} type="number" />
-            <button type='submit'>Fetch</button>
-        </div>
+    const { handleSubmit, onSubmit } = useContext(DashboardContext)
+    return (
+
+        <Box
+            component="form"
+            method="post"
+            onSubmit={handleSubmit((data) => onSubmit(data))}
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: 2,
+                maxWidth: 400,
+                margin: 'auto',
+                padding: 3,
+                borderRadius: 1,
+                boxShadow: 2,
+                bgcolor: 'background.paper',
+            }}
+        >
+            <MuiResponsiveness>
+                <LabeledInput
+                    label="GitHub Username"
+                    name="username"
+                    placeholder="Enter GitHub username"
+                />
+                <LabeledInput
+                    label="Traversal Depth (e.g. 1 or 2)"
+                    name="depth"
+                    placeholder="Enter Depth"
+                    type="number"
+                />
+                <Button type="submit" variant="contained">Fetch</Button>
+            </MuiResponsiveness>
 
 
-    </form>)
+        </Box>)
 }
 
 export default FetchForm;

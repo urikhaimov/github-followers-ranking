@@ -1,11 +1,18 @@
 import React from 'react';
 import DashboardPage from './pages/DashboardPage';
-
+import {  Typography, Box } from '@mui/material';
 export default function App() {
   return (
-    <div className="app">
-      <h1>GitHub Followers Ranking Report</h1>
+    <Box
+      sx={{
+       display: 'flex',
+       flexDirection: 'column',
+       alignItems: 'center'
+      
+      }}>
+      <Typography variant="h6" component="div" >GitHub Followers Ranking Report</Typography>
+
       <DashboardPage />
-    </div>
+    </Box >
   );
 }

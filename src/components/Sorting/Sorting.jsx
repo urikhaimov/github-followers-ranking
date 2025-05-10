@@ -1,18 +1,27 @@
 import React, { useContext } from 'react';
-import './style.css';
 import { DashboardContext } from '../../pages/DashboardPage/DashboardContext';
+import {Select, FormControl, InputLabel, MenuItem} from '@mui/material';
+
 
 const Sorting = () => {
-    const {  sortBy, handleSortChange} = useContext(DashboardContext)
-        
-    return (<div className="sort-group">
-        <label htmlFor="sort">Sort by:</label>
-        <select id="sort" value={sortBy} onChange={handleSortChange}>
-            <option value="">None</option>
-            <option value="username">Username</option>
-            <option value="created_at">Profile Creation Date</option>
-            <option value="followersRank">Followers Rank</option>
-        </select>
-    </div>)
+    const { sortBy, handleSortChange } = useContext(DashboardContext)
+
+    return (
+        <FormControl size="small" sx={{ minWidth: 160 }}>
+            <InputLabel id="Sort by">Sort by</InputLabel>
+            <Select
+                labelId="sort-label"
+                id="sort-select"
+                value={sortBy}
+                label="Sort by"
+                onChange={handleSortChange}
+            >
+                <MenuItem value="">None</MenuItem>
+                <MenuItem value="username">Username</MenuItem>
+                <MenuItem value="created_at">Profile Creation Date</MenuItem>
+                <MenuItem value="username">Username</MenuItem>
+            </Select>
+        </FormControl>
+    )
 }
 export default Sorting;
