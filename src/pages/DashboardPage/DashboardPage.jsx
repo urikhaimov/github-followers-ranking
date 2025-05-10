@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { getFollowers } from '../../api/mockGithubApi';
+import { getUsers, getFollowers } from './api/mockGithubApi';
 import { resolveFollowers, calculateRanks } from '../../utils/rankCalculator';
 import { enrichUsers } from '../../utils/enrichUsers';
 import CardList from '../../components/CardList';
@@ -9,12 +9,12 @@ import { DashboardContext } from './DashboardContext';
 import Box from '@mui/material/Box';
 
 export default function DashboardPage() {
-
   const [users, setUsers] = useState([]);
+  const [followers, setFollowers] = useState([]);
   const [sortBy, setSortBy] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
-
+  
 
 
   const {
@@ -23,17 +23,25 @@ export default function DashboardPage() {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  useEffect(async () => {
+    const gitHubUsers = await getUsers();
+    setUsers(gitHubUsers)
+  }, [])
+
 
   // Handles the main logic: fetches all followers up to given depth, computes ranking, and updates UI
   const onSubmit = async (data) => {
-    setUsers([]);
-    const { username, depth } = data;
+    setFollowers([]);
+    const { followerName, depth } = data;
 
+   
+
+    
     // Step 1: Recursively collect followers up to the specified depth
-    const followers = await resolveFollowers(username, depth, getFollowers);
-
+    const followers = await resolveFollowers(followerName, depth, getFollowers);
+    console.log('follwers', followers)
     // Step 2: Construct a full map of each user to their direct followers
-    const fullMap = { [username]: await getFollowers(username) };
+    const fullMap = { [followerName]: await getFollowers(followerName) };
     for (const user of followers) {
       fullMap[user] = await getFollowers(user);
     }
@@ -42,13 +50,13 @@ export default function DashboardPage() {
     const ranks = calculateRanks(fullMap);
 
     // Step 4: Enrich user data with profile details (simulated for mock API)
-    const allUsers = [username, ...followers];
-    const enriched = enrichUsers(allUsers);
+    const allFollowers = [followerName, ...followers];
+    const enriched = enrichUsers(allFollowers, users);
 
     // Step 5: Merge enriched data with calculated ranks and update state
     const ranked = enriched.map((u) => ({ ...u, followersRank: ranks[u.name] || 0 }));
 
-    setUsers(ranked);
+    setFollowers(ranked);
 
   };
   const handleSortChange = (e) => {
@@ -59,13 +67,13 @@ export default function DashboardPage() {
   const handlePageChange = (event, value) => {
     setCurrentPage(value);
   };
-  // Calculate visible users for current page
+  // Calculate visible followers for current page
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
-  const currentUsers = users.slice(indexOfFirst, indexOfLast);
+  const currentUsers = followers.slice(indexOfFirst, indexOfLast);
 
   const sortedUsers = [...currentUsers].sort((a, b) => {
-    if (sortBy === 'username') {
+    if (sortBy === 'followerName') {
       return a.name.localeCompare(b.name);
     } else if (sortBy === 'created_at') {
       return new Date(a.createdAt) - new Date(b.createdAt);
@@ -81,13 +89,13 @@ export default function DashboardPage() {
     handleSubmit,
     onSubmit,
     register,
-    users: sortedUsers,
+    followers: sortedUsers,
     errors,
     isSubmitting,
     sortBy,
     handleSortChange,
     currentPage,
-    totalItems: users.length,
+    totalItems: followers.length,
     itemsPerPage,
     handlePageChange
   }

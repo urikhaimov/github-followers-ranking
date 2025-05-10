@@ -17,9 +17,9 @@ const Sorting = () => {
                 onChange={handleSortChange}
             >
                 <MenuItem value="">None</MenuItem>
-                <MenuItem value="username">Username</MenuItem>
+                <MenuItem value="followerName">Username</MenuItem>
                 <MenuItem value="created_at">Profile Creation Date</MenuItem>
-                <MenuItem value="username">Username</MenuItem>
+                <MenuItem value="followerName">Username</MenuItem>
             </Select>
         </FormControl>
     )

@@ -28,9 +28,9 @@ const FetchForm = () => {
         >
             <MuiResponsiveness>
                 <LabeledInput
-                    label="GitHub Username"
-                    name="username"
-                    placeholder="Enter GitHub username"
+                    label="GitHub User Name"
+                    name="followerName"
+                    placeholder="Enter GitHub User Name"
                 />
                 <LabeledInput
                     label="Traversal Depth (e.g. 1 or 2)"

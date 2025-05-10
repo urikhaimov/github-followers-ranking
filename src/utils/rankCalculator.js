@@ -1,4 +1,4 @@
-export async function resolveFollowers(username, depth, getFollowers) {
+export async function resolveFollowers(followerName, depth, getFollowers) {
   
     const visited = new Set();
     const result = new Set();
@@ -13,7 +13,7 @@ export async function resolveFollowers(username, depth, getFollowers) {
       }
     }
   
-    await depthSearchFollowers(username, depth);
+    await depthSearchFollowers(followerName, depth);
     return Array.from(result);
   }
   

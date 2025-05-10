@@ -1,6 +1,6 @@
 # GitHub Followers Ranking Report
 
-This web application generates a ranking report of GitHub users based on their follower graph (direct and indirect), up to a specified depth.
+This web application generates a ranking report of GitHub followers based on their follower graph (direct and indirect), up to a specified depth.
 
 ## 📌 Features
 
@@ -13,7 +13,7 @@ This web application generates a ranking report of GitHub users based on their f
   * Profile creation date
   * Link to GitHub profile
   * Followers-rank (direct + indirect)
-* Sortable columns: username, creation date, followers-rank
+* Sortable columns: followerName, creation date, followers-rank
 * Pagination-ready structure
 
 ## 🚀 How to Run
