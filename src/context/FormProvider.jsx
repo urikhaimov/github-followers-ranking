@@ -3,9 +3,19 @@ import { useForm } from 'react-hook-form';
 import { FormContext } from './FormContext';
 
 const FormProvider = ({ children }) => {
-  const formMethods = useForm();
+  // Initialize all methods from react-hook-form
+  const methods = useForm({
+    mode: 'onSubmit',
+    defaultValues: {
+      followerName: '',
+      depth: 1
+    }
+  });
   
-  const value = useMemo(() => formMethods, [formMethods]);
+  // Memoize to prevent unnecessary re-renders
+  const value = useMemo(() => ({
+    ...methods
+  }), [methods]);
 
   return (
     <FormContext.Provider value={value}>
