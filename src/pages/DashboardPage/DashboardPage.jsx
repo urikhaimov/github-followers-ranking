@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 
 export default function DashboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const {users, followers, sortBy, currentPage} =state;   
+  const { users, followers, sortBy, currentPage } = state;
   const itemsPerPage = 3;
   const {
     register,
@@ -28,13 +28,13 @@ export default function DashboardPage() {
 
   // Handles the main logic: fetches all followers up to given depth, computes ranking, and updates UI
   const onSubmit = async (data) => {
-    dispatch({ type: 'SET_FOLLOWERS', payload: [] });
-    
+    dispatch({ type: 'CLEAR', payload: [] });
+
     const { followerName, depth } = data;
-    
+
     // Step 1: Recursively collect followers up to the specified depth
     const followers = await resolveFollowers(followerName, depth, getFollowers);
-    
+
     // Step 2: Construct a full map of each user to their direct followers
     const fullMap = { [followerName]: await getFollowers(followerName) };
     for (const user of followers) {
@@ -51,7 +51,7 @@ export default function DashboardPage() {
     // Step 5: Merge enriched data with calculated ranks and update state
     const ranked = enriched.map((u) => ({ ...u, followersRank: ranks[u.name] || 0 }));
 
-  
+
     dispatch({ type: 'SET_FOLLOWERS', payload: ranked });
 
   };
