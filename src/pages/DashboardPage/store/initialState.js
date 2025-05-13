@@ -4,4 +4,5 @@ export const initialState = {
     followers: [],
     sortBy: '',
     currentPage: 1,
+    isLoading: false
   };

@@ -7,7 +7,7 @@ import FetchForm from '../../components/FetchForm';
 import { DashboardContext } from '../../context/DashboardContext';
 import { reducer } from './store/Reducer';
 import { initialState } from './store/initialState';
-import { Box } from '@mui/material';
+import { Box, CircularProgress } from '@mui/material';
 import { sortFollowers } from '../../utils/sortFollowers';
 import FormProvider from '../../context/FormProvider';
 
@@ -18,9 +18,9 @@ export const FormSubmitContext = createContext(null);
 // This prevents it from rerendering when pagination/sorting changes
 const FetchFormContainer = React.memo(() => {
   const { onSubmit } = React.useContext(FormSubmitContext);
-  
+
   console.log("FetchFormContainer render");
-  
+
   return (
     <Box sx={{ mb: 5 }}>
       <FetchForm onSubmit={onSubmit} />
@@ -30,9 +30,9 @@ const FetchFormContainer = React.memo(() => {
 
 function DashboardPage() {
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { users, followers, sortBy, currentPage } = state;
+  const { users, followers, sortBy, currentPage, isLoading } = state;
   const itemsPerPage = 3;
-  
+
   useEffect(() => {
     async function fetchData() {
       const gitHubUsers = await getUsers();
@@ -43,8 +43,10 @@ function DashboardPage() {
 
   // Handles the main logic: fetches all followers up to given depth, computes ranking, and updates UI
   const onSubmit = useCallback(async (data) => {
-    dispatch({ type: 'CLEAR', payload: [] });
+    dispatch({ type: 'SET_LOADING' });  // Start loading
 
+    //dispatch({ type: 'CLEAR', payload: [] });
+    console.log(isLoading)
     const { followerName, depth } = data;
 
     // Step 1: Recursively collect followers up to the specified depth
@@ -67,6 +69,9 @@ function DashboardPage() {
     const ranked = enriched.map((u) => ({ ...u, followersRank: ranks[u.name] || 0 }));
 
     dispatch({ type: 'SET_FOLLOWERS', payload: ranked });
+    dispatch({ type: 'SET_LOADED' })
+
+
   }, [users]);
 
   const handleSortChange = useCallback((e) => {
@@ -82,18 +87,18 @@ function DashboardPage() {
   const indexOfFirst = indexOfLast - itemsPerPage;
   const currentUsers = followers.slice(indexOfFirst, indexOfLast);
 
-  const sortedUsers = useMemo(() => 
+  const sortedUsers = useMemo(() =>
     [...currentUsers].sort((a, b) => sortFollowers(a, b, sortBy)),
     [currentUsers, sortBy]
   );
-  
+
   const totalItems = followers.length;
-  
+
   // The form submission context value - only includes what FetchForm needs
   const formContextValue = useMemo(() => ({
     onSubmit
   }), [onSubmit]);
-  
+
   // The dashboard context value - includes everything CardList needs
   const dashboardContextValue = useMemo(() => ({
     sortedUsers,
@@ -118,9 +123,15 @@ function DashboardPage() {
       <FormSubmitContext.Provider value={formContextValue}>
         <FetchFormContainer />
       </FormSubmitContext.Provider>
-      
+
       <DashboardContext.Provider value={dashboardContextValue}>
-        <CardList />
+        {isLoading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 5 }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <CardList />
+        )}
       </DashboardContext.Provider>
     </>
   );

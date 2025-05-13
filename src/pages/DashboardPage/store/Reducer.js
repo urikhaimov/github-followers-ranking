@@ -12,6 +12,11 @@ export function reducer(state, action) {
             return { ...state, currentPage: action.payload };
         case 'CLEAR':
             return { ...initialState, users: state.users };
+        case 'SET_LOADING':
+           
+            return { ...state, isLoading: true };
+        case 'SET_LOADED':
+            return { ...state, isLoading: false };
 
         default:
             return state;
