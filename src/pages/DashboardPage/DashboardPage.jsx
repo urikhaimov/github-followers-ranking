@@ -51,7 +51,7 @@ function DashboardPage() {
 
     // Step 1: Recursively collect followers up to the specified depth
     const followers = await resolveFollowers(followerName, depth, getFollowers);
-
+    console.log('ffollowers', followers)
     // Step 2: Construct a full map of each user to their direct followers
     const fullMap = { [followerName]: await getFollowers(followerName) };
     for (const user of followers) {
@@ -66,7 +66,7 @@ function DashboardPage() {
     const enriched = enrichFollowers(allFollowers, users);
 
     // Step 5: Merge enriched data with calculated ranks and update state
-    const ranked = enriched.map((u) => ({ ...u, followersRank: ranks[u.name] || 0 }));
+    const ranked = enriched.map((u) => ({ ...u, followersRank: ranks[u?.name] || 0 }));
 
     dispatch({ type: 'SET_FOLLOWERS', payload: ranked });
     dispatch({ type: 'SET_LOADED' })
@@ -85,8 +85,9 @@ function DashboardPage() {
   // Calculate visible followers for current page
   const indexOfLast = currentPage * itemsPerPage;
   const indexOfFirst = indexOfLast - itemsPerPage;
-  const currentUsers = followers.slice(indexOfFirst, indexOfLast);
 
+  const currentUsers = followers.slice(indexOfFirst, indexOfLast);
+  console.log('currentUsers', currentUsers) 
   const sortedUsers = useMemo(() =>
     [...currentUsers].sort((a, b) => sortFollowers(a, b, sortBy)),
     [currentUsers, sortBy]
@@ -130,7 +131,7 @@ function DashboardPage() {
             <CircularProgress />
           </Box>
         ) : (
-          <CardList />
+           <CardList />
         )}
       </DashboardContext.Provider>
     </>

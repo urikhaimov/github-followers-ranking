@@ -4,7 +4,8 @@ export async function resolveFollowers(followerName, depth, getFollowers) {
     const result = new Set();
   
     async function depthSearchFollowers(user, currentDepth) {
-      if (currentDepth === 0 || visited.has(user)) return;
+      if (currentDepth <= 0 || visited.has(user)) return;
+      
       visited.add(user);
       const followers = await getFollowers(user);
       for (const follower of followers) {
