@@ -66,7 +66,12 @@ function DashboardPage() {
     const enriched = enrichFollowers(allFollowers, users);
 
     // Step 5: Merge enriched data with calculated ranks and update state
-    const ranked = enriched.map((u) => ({ ...u, followersRank: ranks[u?.name] || 0 }));
+    const ranked = enriched.map((u) => {
+      if(u?.name) {
+        return { ...u, followersRank: ranks[u?.name] }
+      }
+      return  { ...u, followersRank: -1 }
+    }).filter((u) => u.followersRank>=0);
 
     dispatch({ type: 'SET_FOLLOWERS', payload: ranked });
     dispatch({ type: 'SET_LOADED' })

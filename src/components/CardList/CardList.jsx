@@ -11,7 +11,7 @@ const CardList = () => {
   const { sortedUsers: followers } = useContext(DashboardContext);
   console.log('followers', followers)
   if (isSubmitting) return <CircularProgress color="inherit" />
-  if (followers.length === 0) return null;
+  if (followers.length === 0) return <>Not Found</>;
   return (
     <>
       <Box sx={{ mb: 3 }}>
