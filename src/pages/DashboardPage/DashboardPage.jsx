@@ -40,42 +40,36 @@ function DashboardPage() {
   }, []);
 
   // Handles the main logic: fetches all followers up to given depth, computes ranking, and updates UI
-  const onSubmit = useCallback(async (data) => {
-    dispatch({ type: 'SET_LOADING' });  // Start loading
+ const onSubmit = useCallback(async (data) => {
+  dispatch({ type: 'SET_LOADING' });  // Start loading
 
-    //dispatch({ type: 'CLEAR', payload: [] });
+  const { followerName, depth } = data;
 
-    const { followerName, depth } = data;
+  const followers = await resolveFollowers(followerName, depth, getFollowers);
 
-    // Step 1: Recursively collect followers up to the specified depth
-    const followers = await resolveFollowers(followerName, depth, getFollowers);
+  const fullMap = { [followerName]: await getFollowers(followerName) };
+  for (const user of followers) {
+    fullMap[user] = await getFollowers(user);
+  }
 
-    // Step 2: Construct a full map of each user to their direct followers
-    const fullMap = { [followerName]: await getFollowers(followerName) };
-    for (const user of followers) {
-      fullMap[user] = await getFollowers(user);
+  const ranks = calculateRanks(fullMap);
+
+  const allFollowers = [followerName, ...followers];
+  const enriched = enrichFollowers(allFollowers, users);
+
+  const ranked = enriched.map((u) => {
+    if (u?.name) {
+      return { ...u, followersRank: ranks[u?.name] }
     }
+    return { ...u, followersRank: -1 }
+  }).filter((u) => u.followersRank >= 0);
 
-    // Step 3: Calculate total follower ranks for each user (including indirect followers)
-    const ranks = calculateRanks(fullMap);
+  // ✅ Set page number to 1 before loading followers
+  dispatch({ type: 'SET_CURRENT_PAGE', payload: 1 });
 
-    // Step 4: Enrich user data with profile details (simulated for mock API)
-    const allFollowers = [followerName, ...followers];
-    const enriched = enrichFollowers(allFollowers, users);
-
-    // Step 5: Merge enriched data with calculated ranks and update state
-    const ranked = enriched.map((u) => {
-      if (u?.name) {
-        return { ...u, followersRank: ranks[u?.name] }
-      }
-      return { ...u, followersRank: -1 }
-    }).filter((u) => u.followersRank >= 0);
-
-    dispatch({ type: 'SET_FOLLOWERS', payload: ranked });
-    dispatch({ type: 'SET_LOADED' })
-
-
-  }, [users]);
+  dispatch({ type: 'SET_FOLLOWERS', payload: ranked });
+  dispatch({ type: 'SET_LOADED' });
+}, [users]);
 
   const handleSortChange = useCallback((e) => {
     dispatch({ type: 'SET_SORT_BY', payload: e.target.value });
