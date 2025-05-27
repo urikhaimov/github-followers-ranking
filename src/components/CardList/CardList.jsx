@@ -9,7 +9,7 @@ import { FormContext } from '../../context/FormContext';
 const CardList = () => {
   const { formState: { isSubmitting } } = useContext(FormContext);
   const { sortedUsers: followers } = useContext(DashboardContext);
-  console.log('followers', followers)
+
   if (isSubmitting) return <CircularProgress color="inherit" />
   if (followers.length === 0) return <>Not Found</>;
   return (

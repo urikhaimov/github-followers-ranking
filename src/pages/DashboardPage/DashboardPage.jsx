@@ -16,14 +16,12 @@ export const FormSubmitContext = createContext(null);
 
 // Extract the FetchForm rendering into a separate component
 // This prevents it from rerendering when pagination/sorting changes
-const FetchFormContainer = React.memo(() => {
+const FetchFormContainer = React.memo(({ followers }) => {
   const { onSubmit } = React.useContext(FormSubmitContext);
-
-  console.log("FetchFormContainer render");
 
   return (
     <Box sx={{ mb: 5 }}>
-      <FetchForm onSubmit={onSubmit} />
+      <FetchForm followers={followers} onSubmit={onSubmit} />
     </Box>
   );
 });
@@ -46,12 +44,12 @@ function DashboardPage() {
     dispatch({ type: 'SET_LOADING' });  // Start loading
 
     //dispatch({ type: 'CLEAR', payload: [] });
-    console.log(isLoading)
+
     const { followerName, depth } = data;
 
     // Step 1: Recursively collect followers up to the specified depth
     const followers = await resolveFollowers(followerName, depth, getFollowers);
-    console.log('ffollowers', followers)
+
     // Step 2: Construct a full map of each user to their direct followers
     const fullMap = { [followerName]: await getFollowers(followerName) };
     for (const user of followers) {
@@ -67,11 +65,11 @@ function DashboardPage() {
 
     // Step 5: Merge enriched data with calculated ranks and update state
     const ranked = enriched.map((u) => {
-      if(u?.name) {
+      if (u?.name) {
         return { ...u, followersRank: ranks[u?.name] }
       }
-      return  { ...u, followersRank: -1 }
-    }).filter((u) => u.followersRank>=0);
+      return { ...u, followersRank: -1 }
+    }).filter((u) => u.followersRank >= 0);
 
     dispatch({ type: 'SET_FOLLOWERS', payload: ranked });
     dispatch({ type: 'SET_LOADED' })
@@ -92,7 +90,7 @@ function DashboardPage() {
   const indexOfFirst = indexOfLast - itemsPerPage;
 
   const currentUsers = followers.slice(indexOfFirst, indexOfLast);
-  console.log('currentUsers', currentUsers) 
+
   const sortedUsers = useMemo(() =>
     [...currentUsers].sort((a, b) => sortFollowers(a, b, sortBy)),
     [currentUsers, sortBy]
@@ -127,7 +125,7 @@ function DashboardPage() {
   return (
     <>
       <FormSubmitContext.Provider value={formContextValue}>
-        <FetchFormContainer />
+        <FetchFormContainer followers={state?.users} />
       </FormSubmitContext.Provider>
 
       <DashboardContext.Provider value={dashboardContextValue}>
@@ -136,7 +134,7 @@ function DashboardPage() {
             <CircularProgress />
           </Box>
         ) : (
-           <CardList />
+          <CardList />
         )}
       </DashboardContext.Provider>
     </>
